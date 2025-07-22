@@ -21,6 +21,7 @@ For OpenEnded type:
 ```json5
 {
   "type": 'OpenEnded',
-  "text": 'String'
+  "text": 'Task text',
+  "referenceSolution": 'Solution text'
 }
 ```
