@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List
 
-from biobench.article import Article
+from biobench.articles.article import Article
 from biobench.scorers.scorer_factory import get_scorer
 
 
