@@ -1,6 +1,7 @@
 import os
 from openai import OpenAI
-from ..ai_model import AIModel
+
+from biobench.ai_model import AIModel
 
 
 class OpenAIModel(AIModel):
