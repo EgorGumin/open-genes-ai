@@ -1,6 +1,6 @@
 from ai_model import AIModel
-from task_repo import TaskRepo
-from task import Task
+from biobench.tasks.task_repo import TaskRepo
+from biobench.tasks.task import Task
 
 class Assessment:
     def __init__(self, id: str):

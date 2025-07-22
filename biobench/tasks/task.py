@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from article import Article
+from biobench.article import Article
 
 
 class Task(ABC):
