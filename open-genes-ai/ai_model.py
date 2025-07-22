@@ -1,11 +1,16 @@
-from abc import ABC, abstractmethod
+import os
+from abc import ABC
+from openai import OpenAI
 
 
 class AIModel(ABC):
-    def __init__(self, name: str):
+    def __init__(self, name: str = 'llama-3.3-70b-instruct'):
         self.name = name
+        self.client = OpenAI(
+            base_url=os.environ.get('BASE_URL', ''),
+            api_key=os.environ.get('API_KEY', '')
+        )
 
-    @abstractmethod
     def query(self, prompt: str) -> str:
         """Process the input prompt and return the model's response.
 
@@ -15,4 +20,10 @@ class AIModel(ABC):
         Returns:
             Model's response as a string.
         """
-        pass
+        response = self.client.chat.completions.create(
+            model=self.name,
+            messages=[{"role": "user", "content": prompt}],
+            max_tokens=int(os.environ.get('MAX_TOKENS', 75)),
+            temperature=float(os.environ.get('TEMPERATURE', 0.0))
+        )
+        return response.choices[0].message.content
