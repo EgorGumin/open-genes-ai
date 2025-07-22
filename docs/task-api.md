@@ -8,9 +8,13 @@ Task is stored as JSON and has the following structure:
   // Other content fields depend on type
   "content": {
     "type": 'OpenEnded'
-  }
+  },
+  "scoringModel": 'Exact'
 }
 ```
+
+Scoring models:
+- Exact - checks if the answer is exactly the same as the reference
 
 For OpenEnded type:
 
