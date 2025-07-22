@@ -1,11 +1,11 @@
 import os
 from openai import OpenAI
-from ai_model import AIModel
+from ..ai_model import AIModel
 
 
 class OpenAIModel(AIModel):
     def __init__(self, name: str = 'llama-3.3-70b-instruct'):
-        self.name = name
+        super().__init__(name)
         self.client = OpenAI(
             base_url=os.environ.get('BASE_URL', ''),
             api_key=os.environ.get('API_KEY', '')
