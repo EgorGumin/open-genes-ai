@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import List
 
 
 class AIModel(ABC):
@@ -6,13 +7,5 @@ class AIModel(ABC):
         self.name = name
 
     @abstractmethod
-    def query(self, prompt: str) -> str:
-        """Process the input prompt and return the model's response.
-
-        Args:
-            prompt: Input text prompt for the model.
-
-        Returns:
-            Model's response as a string.
-        """
+    def query(self, prompt: str, article_ids: List[str]) -> str:
         pass

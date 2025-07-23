@@ -1,5 +1,5 @@
 from ai_model import AIModel
-from biobench.tasks.task_repo import TaskRepo
+from biobench.tasks.tasks_repo import TaskRepo
 from biobench.tasks.task import Task
 
 class Assessment:
@@ -26,9 +26,12 @@ class Benchmark:
         self.assessment = assessment
 
     def run(self):
-        for task in self.task_repo.next():
-            solution = self.model.query(task.compile())
-            score = task.evaluate(solution)
+        while True:
+            task = self.task_repo.next()
+            if task is None:
+                break
+            solution = self.model.query(task.compile(), task.article_ids)
+            score = task.score(solution)
             self.assessment.save_score(task, score)
 
         self.assessment.complete()

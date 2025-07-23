@@ -1,13 +1,11 @@
 from abc import abstractmethod, ABC
 
-from biobench.articles.article import Article
-
 
 class ArticleRepo(ABC):
     """Abstract base class for article repositories."""
 
     @abstractmethod
-    def get_article(self, doi: str) -> Article:
+    def get_article(self, doi: str) -> str:
         """
         Get article object by DOI.
 
@@ -15,7 +13,7 @@ class ArticleRepo(ABC):
             doi: Unique article identifier
 
         Returns:
-            Article: Article object
+            str: string representation of the article
 
         Raises:
             ArticleNotFoundError: If article is not found
@@ -25,20 +23,20 @@ class ArticleRepo(ABC):
     @abstractmethod
     def article_exists(self, doi: str) -> bool:
         """
-        Check if article exists by DOI.
+        Check if an article exists by DOI.
 
         Args:
             doi: Unique article identifier
 
         Returns:
-            bool: True if article exists, False otherwise
+            bool: True if the article exists, False otherwise
         """
         pass
 
     @abstractmethod
     def list_available_articles(self) -> list[str]:
         """
-        Get list of all available article DOIs.
+        Get a list of all available article DOIs.
 
         Returns:
             list[str]: List of available article DOIs

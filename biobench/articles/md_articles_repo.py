@@ -1,12 +1,11 @@
 from pathlib import Path
 
-from biobench.articles.article import Article
 from biobench.articles.article_not_found_error import ArticleNotFoundError
 from biobench.articles.article_repo import ArticleRepo
 
 
-class FileSystemArticleRepo(ArticleRepo):
-    """File system implementation of ArticleRepository."""
+class MdArticlesRepo(ArticleRepo):
+    """File system implementation of ArticleRepository returning .md files."""
 
     def __init__(self, base_path: str = None):
         if base_path is None:
@@ -18,7 +17,7 @@ class FileSystemArticleRepo(ArticleRepo):
                     break
                 project_root = project_root.parent
 
-            self.base_path = project_root / "data" / "PDF_DIR"
+            self.base_path = project_root / "data" / "md"
         else:
             self.base_path = Path(base_path)
 
@@ -53,9 +52,8 @@ class FileSystemArticleRepo(ArticleRepo):
         except IOError as e:
             raise IOError(f"Error reading article file '{doi}': {e}")
 
-    def get_article(self, doi: str) -> Article:
-        md_text = self.load_article_content(doi)
-        return Article(doi=doi, md_text=md_text)
+    def get_article(self, doi: str) -> str:
+        return self.load_article_content(doi)
 
     def list_available_articles(self) -> list[str]:
         if not self.base_path.exists():

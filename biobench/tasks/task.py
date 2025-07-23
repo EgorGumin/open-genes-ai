@@ -1,25 +1,27 @@
 from abc import ABC, abstractmethod
-from typing import List
+from typing import List, Literal
 
-from biobench.articles.article import Article
 from biobench.scorers.scorer_factory import get_scorer
+
+ScoringModelName = Literal["Exact"]
 
 
 class Task(ABC):
-    def __init__(self, id: str, reference_solution: str, articles: List[Article]):
+    def __init__(
+            self,
+            id: str,
+            reference_solution: str,
+            scoring_model: ScoringModelName,
+            article_ids: List[str]
+    ):
         self.id = id
-        self.articles = articles
+        self.article_ids = article_ids
         self.reference_solution = reference_solution
+        self.scoring_model = scoring_model
 
     @abstractmethod
     def compile(self) -> str:
         pass
-
-    def _compile_articles_block(self) -> str:
-        text = ''
-        for article in self.articles:
-            text += f'<article doi="{article.doi}">{article.md_text}</article>\n'
-        return text
 
     def score(self, solution: str) -> float:
         scorer = get_scorer(self.scoring_model)
