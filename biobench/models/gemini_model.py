@@ -18,12 +18,17 @@ class GeminiModel(AIModel):
     def query(self, prompt: str, article_ids: str) -> str:
         model = self.name
 
-        parts = [types.Part.from_text(text=prompt)]
+        parts = []
 
         for article_id in article_ids:
             article_bytes = self.articles_repo.get_article(article_id)
 
             parts.append(types.Part.from_bytes(data=article_bytes, mime_type="application/pdf"))
+            sups = self.articles_repo.get_supplementary(article_id)
+            for sup in sups:
+                parts.append(types.Part.from_bytes(data=sup["content"], mime_type=sup["mime_type"]))
+
+        parts.append(types.Part.from_text(text=prompt))
 
         contents = [
             types.Content(

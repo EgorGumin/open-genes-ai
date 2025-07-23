@@ -68,3 +68,30 @@ class MdArticlesRepo(ArticleRepo):
                     available_dois.append(item.name)
 
         return available_dois
+
+    def get_supplementary(self, doi: str) -> list[dict]:
+        import os
+        print(f"DEBUG: supp_dir = {self.base_path.parent / 'supp_md' / doi}")
+        supp_dir = self.base_path.parent / "supp_md" / doi
+        if not supp_dir.exists() or not supp_dir.is_dir():
+            print("DEBUG: supp_dir does not exist or is not a dir")
+            return []
+
+        result = []
+        for root, _, files in os.walk(supp_dir):
+            print(f"DEBUG: root = {root}, files = {files}")
+            for file in files:
+                if file.lower().endswith(".md"):
+                    file_path = Path(root) / file
+                    try:
+                        with open(file_path, "r", encoding="utf-8") as f:
+                            content = f.read()
+                        result.append({
+                            "content": content,
+                            "filename": file
+                        })
+                    except Exception as e:
+                        print(f"DEBUG: error reading {file_path}: {e}")
+                        continue
+        print(f"DEBUG: result = {result}")
+        return result

@@ -24,6 +24,11 @@ class OpenAIModel(AIModel):
             article_block = f'<article doi="{article_id}">{text}</article>\n'
             messages.append({"role": "user", "content": article_block})
 
+            sups = self.articles_repo.get_supplementary(article_id)
+            for sup in sups:
+                sup_block = f'<supplementary doi="{article_id}" name="{sup['filename']}">{sup['content']}</supplementary>\n'
+                messages.append({"role": "user", "content": sup_block})
+
         response = self.client.chat.completions.create(
             model=self.name,
             messages=messages,

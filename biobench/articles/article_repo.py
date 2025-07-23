@@ -21,6 +21,10 @@ class ArticleRepo(ABC):
         pass
 
     @abstractmethod
+    def get_supplementary(self, doi: str) -> []:
+        pass
+
+    @abstractmethod
     def article_exists(self, doi: str) -> bool:
         """
         Check if an article exists by DOI.

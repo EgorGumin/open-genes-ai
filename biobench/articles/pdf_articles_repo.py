@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import List
 
 from biobench.articles.article_not_found_error import ArticleNotFoundError
 from biobench.articles.article_repo import ArticleRepo
@@ -33,7 +34,7 @@ class PdfArticlesRepo(ArticleRepo):
 
         try:
             pdf_file_path = self.get_article_path(doi)
-            with open(pdf_file_path, 'rb') as file:
+            with open(pdf_file_path, "rb") as file:
                 return file.read()
         except FileNotFoundError:
             raise ArticleNotFoundError(doi)
@@ -54,3 +55,46 @@ class PdfArticlesRepo(ArticleRepo):
                 available_dois.append(item.stem)
 
         return available_dois
+
+    def get_supplementary(self, doi: str) -> List[dict]:
+        import mimetypes
+
+        allowed_exts = {
+            ".csv",
+            ".emf",
+            ".eps",
+            ".gif",
+            ".html",
+            ".jpeg",
+            ".jpg",
+            ".ods",
+            ".odt",
+            ".pdf",
+            ".png",
+            ".tif",
+            ".tiff",
+            ".txt",
+            ".xls",
+            ".xlsx",
+        }
+        max_size = 10 * 1024 * 1024  # 10 MB
+        supp_dir = Path(__file__).resolve().parent.parent.parent / "data" / "supp" / doi
+        if not supp_dir.exists() or not supp_dir.is_dir():
+            return []
+        result = []
+        for file in supp_dir.iterdir():
+            if (
+                file.is_file()
+                and file.suffix.lower() in allowed_exts
+                and file.stat().st_size < max_size
+            ):
+                try:
+                    with open(file, "rb") as f:
+                        content = f.read()
+                    mime_type, _ = mimetypes.guess_type(file.name)
+                    if mime_type is None:
+                        mime_type = "application/octet-stream"
+                    result.append({"content": content, "mime_type": mime_type})
+                except Exception:
+                    continue  # skip unreadable files
+        return result
