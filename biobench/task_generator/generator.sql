@@ -1,5 +1,5 @@
 SELECT JSON_OBJECT(
-    'articles', CONCAT('["', REPLACE(reference, '/', '_'), '"]'),
+    'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
     'scoring', JSON_OBJECT('model', 'Exact'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
@@ -84,7 +84,7 @@ GROUP BY reference
 ORDER BY reference;
 
 SELECT JSON_OBJECT(
-    'articles', CONCAT('["', REPLACE(reference, '/', '_'), '"]'),
+    'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
     'scoring', JSON_OBJECT('model', 'Exact'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
@@ -169,7 +169,7 @@ GROUP BY reference
 ORDER BY reference;
 
 SELECT  JSON_OBJECT(
-    'articles', CONCAT('["', REPLACE(reference, '/', '_'), '"]'),
+    'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
     'scoring', JSON_OBJECT('model', 'Exact'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
@@ -255,7 +255,7 @@ ORDER BY reference;
 
 SELECT
 JSON_OBJECT(
-    'articles', CONCAT('["', REPLACE(reference, '/', '_'), '"]'),
+    'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
     'scoring', JSON_OBJECT('model', 'Exact'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
@@ -343,7 +343,7 @@ ORDER BY reference;
 
 SELECT
 JSON_OBJECT(
-    'articles', CONCAT('["', REPLACE(reference, '/', '_'), '"]'),
+    'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
     'scoring', JSON_OBJECT('model', 'Exact'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
@@ -434,7 +434,7 @@ ORDER BY reference;
 
 SELECT
 JSON_OBJECT(
-    'articles', CONCAT('["', REPLACE(reference, '/', '_'), '"]'),
+    'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
     'scoring', JSON_OBJECT('model', 'Exact'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
@@ -521,7 +521,7 @@ ORDER BY reference;
 
 SELECT
 JSON_OBJECT(
-    'articles', CONCAT('["', REPLACE(reference, '/', '_'), '"]'),
+    'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
     'scoring', JSON_OBJECT('model', 'Exact'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
@@ -608,7 +608,7 @@ ORDER BY reference;
 
 SELECT
 JSON_OBJECT(
-    'articles', CONCAT('["', REPLACE(reference, '/', '_'), '"]'),
+    'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
     'scoring', JSON_OBJECT('model', 'Exact'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
@@ -694,7 +694,7 @@ ORDER BY reference;
 
 SELECT
 JSON_OBJECT(
-    'articles', CONCAT('["', REPLACE(reference, '/', '_'), '"]'),
+    'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
     'scoring', JSON_OBJECT('model', 'Exact'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
@@ -781,7 +781,7 @@ ORDER BY reference;
 
 SELECT
 JSON_OBJECT(
-    'articles', CONCAT('["', REPLACE(reference, '/', '_'), '"]'),
+    'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
     'scoring', JSON_OBJECT('model', 'Exact'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
@@ -868,7 +868,7 @@ ORDER BY reference;
 
 SELECT
 JSON_OBJECT(
-    'articles', CONCAT('["', REPLACE(reference, '/', '_'), '"]'),
+    'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
     'scoring', JSON_OBJECT('model', 'Exact'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
@@ -955,7 +955,7 @@ ORDER BY reference;
 
 SELECT
 JSON_OBJECT(
-    'articles', CONCAT('["', REPLACE(reference, '/', '_'), '"]'),
+    'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
     'scoring', JSON_OBJECT('model', 'Exact'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
@@ -1042,7 +1042,7 @@ ORDER BY reference;
 
 SELECT
 JSON_OBJECT(
-    'articles', CONCAT('["', REPLACE(reference, '/', '_'), '"]'),
+    'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
     'scoring', JSON_OBJECT('model', 'Exact'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
@@ -1129,7 +1129,7 @@ ORDER BY reference;
 
 SELECT
 JSON_OBJECT(
-    'articles', CONCAT('["', REPLACE(reference, '/', '_'), '"]'),
+    'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
     'scoring', JSON_OBJECT('model', 'Exact'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
@@ -1215,7 +1215,7 @@ ORDER BY reference;
 
 SELECT
 JSON_OBJECT(
-    'articles', CONCAT('["', REPLACE(reference, '/', '_'), '"]'),
+    'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
     'scoring', JSON_OBJECT('model', ),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
@@ -1300,7 +1300,7 @@ ORDER BY reference;
 
 SELECT
 JSON_OBJECT(
-    'articles', CONCAT('["', REPLACE(reference, '/', '_'), '"]'),
+    'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
     'scoring', JSON_OBJECT('model', 'Exact'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
@@ -1386,7 +1386,7 @@ ORDER BY reference;
 
 SELECT
 JSON_OBJECT(
-    'articles', CONCAT('["', REPLACE(reference, '/', '_'), '"]'),
+    'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
     'scoring', JSON_OBJECT('model', 'Exact'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
