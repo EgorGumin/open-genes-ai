@@ -9,12 +9,27 @@ Task is stored as JSON and has the following structure:
   "content": {
     "type": 'OpenEnded'
   },
-  "scoringModel": 'Exact'
+  "scoring": {
+    "model": 'Exact'
+  },
 }
 ```
 
 Scoring models:
 - Exact - checks if the answer is exactly the same as the reference
+- AI - involves AI model to check if the answer is correct according to the instructions
+
+```json5
+{
+  "model": 'Exact'
+}
+```
+```json5
+{
+  "model": 'AI',
+  "Instructions": 'Your prompt with scoring instructions'
+}
+```
 
 For OpenEnded type:
 
