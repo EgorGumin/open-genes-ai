@@ -27,7 +27,7 @@ Scoring models:
 ```json5
 {
   "model": 'AI',
-  "Instructions": 'Your prompt with scoring instructions'
+  "instructions": 'Your prompt with scoring instructions'
 }
 ```
 

@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import List, Literal
 
+from biobench.scorers.score_result import ScoreResult
 from biobench.scorers.scorer_factory import get_scorer
-
-ScoringModelName = Literal["Exact"]
+from biobench.tasks.task_body_dto import ScoringConfig
 
 
 class Task(ABC):
@@ -11,18 +11,20 @@ class Task(ABC):
             self,
             id: str,
             reference_solution: str,
-            scoring_model: ScoringModelName,
-            article_ids: List[str]
+            scoring: ScoringConfig,
+            article_ids: List[str],
+            text: str
     ):
         self.id = id
         self.article_ids = article_ids
         self.reference_solution = reference_solution
-        self.scoring_model = scoring_model
+        self.scoring = scoring
+        self.text = text
 
     @abstractmethod
     def compile(self) -> str:
         pass
 
-    def score(self, solution: str) -> float:
-        scorer = get_scorer(self.scoring_model)
-        return scorer.score(solution, self.reference_solution)
+    def score(self, solution: str) -> ScoreResult:
+        scorer = get_scorer(self.scoring['model'])
+        return scorer.score(solution, self.reference_solution, self.text, self.scoring)

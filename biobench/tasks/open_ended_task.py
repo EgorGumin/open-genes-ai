@@ -1,6 +1,7 @@
 from typing import List
 
-from biobench.tasks.task import Task, ScoringModelName
+from biobench.tasks.task import Task
+from biobench.tasks.task_body_dto import ScoringConfig
 
 
 class OpenEndedTask(Task):
@@ -10,11 +11,10 @@ class OpenEndedTask(Task):
             id: str,
             reference_solution: str,
             article_ids: List[str],
-            scoring_model: ScoringModelName,
+            scoring_model: ScoringConfig,
             text: str
     ):
-        super().__init__(id, reference_solution, scoring_model, article_ids)
-        self.text = text
+        super().__init__(id, reference_solution, scoring_model, article_ids, text)
 
     def compile(self) -> str:
         text = f'{self.text}'

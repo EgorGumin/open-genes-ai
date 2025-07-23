@@ -1,0 +1,11 @@
+{
+  "content": {
+    "text": "In the study the gene _____ was investigated for its effect on lifespan. Fill in the blank. Answer to the point only, no additional text and no combined. Example: ABC",
+    "type": "OpenEnded",
+    "referenceSolution": "Akt1"
+  },
+  "articles": "[\"10.1371_journal.pone.0069178\"]",
+  "scoring": {
+    "model": "Exact"
+  }
+}

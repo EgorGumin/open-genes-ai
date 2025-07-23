@@ -1,9 +1,20 @@
-from typing import Any, Dict, List, TypedDict
+from typing import List, TypedDict, Optional, Literal
 
-from biobench.tasks.task import ScoringModelName
+ScoringModelName = Literal["Exact", "AI"]
+
+
+class ScoringConfig(TypedDict):
+    model: ScoringModelName
+    instructions: Optional[str]
+
+
+class Content(TypedDict):
+    text: str
+    type: Literal["OpenEnded"]
+    referenceSolution: str
 
 
 class TaskBodyDto(TypedDict):
     articles: List[str]
-    content: Dict[str, Any]
-    scoringModel: ScoringModelName
+    content: Content
+    scoring: ScoringConfig

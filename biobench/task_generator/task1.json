@@ -1,0 +1,11 @@
+{
+  "content": {
+    "text": "Based on following studies of gene GHR, what is the appropriate confidence level (Highest, High, Moderate, Low, Lowest) for its association with aging? Answer to the point only, no additional text and no combined",
+    "type": "OpenEnded",
+    "referenceSolution": "Highest"
+  },
+  "articles": "[\"10.1210_en.2003-0374\", \"10.1210_en.2016-1649\", \"10.1210_endo.141.7.7586\"]",
+  "scoring": {
+    "model": "Exact"
+  }
+}

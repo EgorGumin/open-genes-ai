@@ -7,7 +7,7 @@ from biobench.tasks.task_body_dto import TaskBodyDto
 def get_task(id: str, body: TaskBodyDto) -> Task:
 
     if body['content']['type'] == 'OpenEnded':
-        return OpenEndedTask(id, body['content']['referenceSolution'], body['articles'], body['scoringModel'],
+        return OpenEndedTask(id, body['content']['referenceSolution'], body['articles'], body['scoring'],
                              body['content']['text'])
 
     raise ValueError(f"Task type {body['content']['type']} not supported")

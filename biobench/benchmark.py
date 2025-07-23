@@ -2,6 +2,7 @@ from ai_model import AIModel
 from biobench.tasks.tasks_repo import TaskRepo
 from biobench.tasks.task import Task
 
+
 class Assessment:
     def __init__(self, id: str):
         self.id = id
@@ -12,12 +13,14 @@ class Assessment:
     def complete(self):
         pass
 
+
 class CompleteAssessment:
     def __init__(self, id: str):
         self.id = id
 
     def result(self) -> float:
         pass
+
 
 class Benchmark:
     def __init__(self, model: AIModel, task_repo: TaskRepo, assessment: Assessment):
@@ -32,7 +35,7 @@ class Benchmark:
                 break
             solution = self.model.query(task.compile(), task.article_ids)
             score = task.score(solution)
-            self.assessment.save_score(task, score)
+            self.assessment.save_score(task, score.score)
 
         self.assessment.complete()
         complete_assessment = CompleteAssessment(self.assessment.id)
