@@ -2,7 +2,6 @@ import glob
 import json
 import os
 import mysql.connector
-from psycopg2.extras import Json
 
 from uuid6 import uuid7
 
@@ -32,7 +31,12 @@ def insert_to_postgres(cursor, data):
 
     for row in data:
         task_id = str(uuid7())
-        cursor.execute("INSERT INTO public.tasks (id, body) VALUES (%s, %s)", (task_id, Json(row)))
+
+        if isinstance(row, dict) and 'body' in row:
+            body_content = json.loads(row['body']) if isinstance(row['body'], str) else row['body']
+            cursor.execute("INSERT INTO public.tasks (id, body) VALUES (%s, %s)", (task_id, body_content))
+        else:
+            cursor.execute("INSERT INTO public.tasks (id, body) VALUES (%s, %s)", (task_id, row))
 
 
 def main():

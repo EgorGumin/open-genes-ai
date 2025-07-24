@@ -1,5 +1,8 @@
 SELECT JSON_OBJECT(
-               'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
+               'articles', (SELECT JSON_ARRAYAGG(REPLACE(reference, '/', '_'))
+                            FROM (SELECT DISTINCT reference
+                                  FROM general_lifespan_experiment gle2
+                                  WHERE gle2.reference = gle.reference) AS distinct_refs),
                'scoring', JSON_OBJECT('model', 'AI'),
                'cognitiveType', 'Factual', 'content', JSON_OBJECT(
                        'type', 'OpenEnded',
@@ -244,7 +247,10 @@ GROUP BY reference
 ORDER BY reference;
 
 -- SELECT JSON_OBJECT(
---                'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
+--                'articles', (SELECT JSON_ARRAYAGG(REPLACE(reference, '/', '_'))
+--                             FROM (SELECT DISTINCT reference
+--                                   FROM general_lifespan_experiment gle2
+--                                   WHERE gle2.reference = gle.reference) AS distinct_refs),
 --                'scoring', JSON_OBJECT('model', 'AI'),
 --                'cognitiveType', 'Factual', 'content', JSON_OBJECT(
 --                        'type', 'OpenEnded',
@@ -489,7 +495,10 @@ ORDER BY reference;
 -- ORDER BY reference;
 
 SELECT JSON_OBJECT(
-               'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
+               'articles', (SELECT JSON_ARRAYAGG(REPLACE(reference, '/', '_'))
+                            FROM (SELECT DISTINCT reference
+                                  FROM general_lifespan_experiment gle2
+                                  WHERE gle2.reference = gle.reference) AS distinct_refs),
                'scoring', JSON_OBJECT('model', 'AI'),
                'cognitiveType', 'Factual', 'content', JSON_OBJECT(
                        'type', 'OpenEnded',
@@ -3234,7 +3243,10 @@ ORDER BY reference;
 -- ORDER BY reference;
 
 SELECT JSON_OBJECT(
-               'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
+               'articles', (SELECT JSON_ARRAYAGG(REPLACE(reference, '/', '_'))
+                            FROM (SELECT DISTINCT reference
+                                  FROM general_lifespan_experiment gle2
+                                  WHERE gle2.reference = gle.reference) AS distinct_refs),
                'scoring', JSON_OBJECT('model', 'AI'),
                'cognitiveType', 'Meta', 'content', JSON_OBJECT(
                        'type', 'OpenEnded',
@@ -3728,7 +3740,10 @@ ORDER BY reference;
 -- ORDER BY reference;
 
 SELECT JSON_OBJECT(
-               'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
+               'articles', (SELECT JSON_ARRAYAGG(REPLACE(reference, '/', '_'))
+                            FROM (SELECT DISTINCT reference
+                                  FROM general_lifespan_experiment gle2
+                                  WHERE gle2.reference = gle.reference) AS distinct_refs),
                'scoring', JSON_OBJECT('model', 'AI'),
                'cognitiveType', 'ClaimVerification', 'content', JSON_OBJECT(
                        'type', 'OpenEnded',
@@ -3976,7 +3991,10 @@ GROUP BY reference
 ORDER BY reference;
 
 SELECT JSON_OBJECT(
-               'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
+               'articles', (SELECT JSON_ARRAYAGG(REPLACE(reference, '/', '_'))
+                            FROM (SELECT DISTINCT reference
+                                  FROM general_lifespan_experiment gle2
+                                  WHERE gle2.reference = gle.reference) AS distinct_refs),
                'scoring', JSON_OBJECT('model', 'AI'),
                'cognitiveType', 'ClaimVerification', 'content', JSON_OBJECT(
                        'type', 'TrueFalse',
