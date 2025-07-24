@@ -1,9 +1,12 @@
 {
   "content": {
     "text": "Claim: 'Gene NGF is consistently downregulated with age in multiple mammalian tissues.' Is this supported by the studies? Answer to the point only, no additional text and no combined",
-    "type": "OpenEnded",
+    "type": "TrueFalse",
     "referenceSolution": "No"
   },
   "articles": "[\"10.1371_journal.pone.0016679\", \"10.1111_j.1471-4159.1991.tb06342.x\", \"10.1007_s11357-012-9495-6\", \"10.1016_0169-328x(87)90044-1\", \"10.1007_s11011-008-9084-7\", \"10.1016_j.physbeh.2010.11.005\", \"10.1007_s11357-011-9262-0\", \"10.1038_sj.ijir.3900405\", \"10.1002_nau.21174\", \"10.1016_j.bbi.2013.03.008\"]",
-  "scoring": {"model": "AI"}
+  "scoring": {
+    "model": "AI"
+  },
+  "cognitiveType": "ClaimVerification"
 }

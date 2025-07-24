@@ -1,11 +1,12 @@
 {
   "content": {
     "text": "In study with tissue-specific gene knockout gene intervention on mouse, what was the main effect of the experiment?\nA. No significant effect\nB. Increased lifespan\nC. Decreased lifespan\nD. Effect not reported\n\nAnswer to the point only, no additional text and no combined. Example: D",
-    "type": "OpenEnded",
+    "type": "MultipleChoiceSingleAnswer",
     "referenceSolution": "B"
   },
   "articles": "[\"10.1126_science.1078223\"]",
   "scoring": {
     "model": "AI"
-  }
+  },
+  "cognitiveType": "Reasoning"
 }

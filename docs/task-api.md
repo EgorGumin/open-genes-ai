@@ -16,6 +16,12 @@ Task is stored as JSON and has the following structure:
 }
 ```
 
+Cognitive types:  
+Factual | Analytical | Reasoning | Context | Meta | ClaimVerification
+
+Content types:  
+OpenEnded | TrueFalse | Matching | MultipleChoiceSingleAnswer | MultipleChoiceMultipleAnswers | FillInTheBlanks
+
 Scoring models:
 - Exact - checks if the answer is exactly the same as the reference
 - AI - involves AI model to check if the answer is correct according to the instructions

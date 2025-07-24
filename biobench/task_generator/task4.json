@@ -1,11 +1,12 @@
 {
   "content": {
     "text": "Are the age-related expression or activity changes of gene RAD51 consistent across species? If not, describe the differences. Answer to the point only, no additional text and no combined",
-    "type": "OpenEnded",
+    "type": "Matching",
     "referenceSolution": "Summary: The age-related changes in RAD51 expression and activity are not fully consistent across species.\nSpecies-specific observations:\nMouse: Decreased gene expression\nHuman: Decreased gene expression; alteration of protein localization\nRat: Decreased gene expression\nCow: Increased gene expression\nFly (Drosophila melanogaster): Increased gene expression"
   },
   "articles": "[\"10.1126_scitranslmed.3004925\", \"10.1111_acel.12556\", \"10.1016_j.rbmo.2014.11.010\", \"10.1017_S0967199413000154\", \"10.1038_cdd.2016.65\"]",
   "scoring": {
     "model": "AI"
-  }
+  },
+  "cognitiveType": "Context"
 }

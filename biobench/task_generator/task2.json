@@ -1,11 +1,12 @@
 {
   "content": {
     "text": "Summarize the studies on gene GHR in a table with columns: organism, intervention, effect on lifespan?. Answer to the point only, no additional text and no combined",
-    "type": "OpenEnded",
+    "type": "Matching",
     "referenceSolution": "mice\tgene knockout\tincreases lifespan\nmice\tgene knockout\tincreases lifespan\nmice\tgene knockout\tincreases lifespan"
   },
   "articles": "[\"10.1210_en.2003-0374\", \"10.1210_en.2016-1649\", \"10.1210_endo.141.7.7586\"]",
   "scoring": {
     "model": "AI"
-   }
+   },
+  "cognitiveType": "Context"
 }
