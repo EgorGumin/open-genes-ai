@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import List, Literal
+from typing import List
 
-from biobench.scorers.score_result import ScoreResult
 from biobench.scorers.scorer_factory import get_scorer
 from biobench.tasks.task_body_dto import ScoringConfig
 
@@ -25,6 +24,6 @@ class Task(ABC):
     def compile(self) -> str:
         pass
 
-    def score(self, solution: str) -> ScoreResult:
+    def score(self, solution: str) -> dict:
         scorer = get_scorer(self.scoring['model'])
         return scorer.score(solution, self.reference_solution, self.text, self.scoring)

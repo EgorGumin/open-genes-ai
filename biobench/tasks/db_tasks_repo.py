@@ -26,14 +26,19 @@ class DbTasksRepo(TaskRepo):
         finally:
             self.db_pool.putconn(conn)
 
-    def _get_task_ids(self) -> List[str]:
+    def _get_task_ids(self, assessment_id=str) -> List[str]:
         with self.get_cursor() as (cur, conn):
             cur: cursor
             cur.execute("""
                 SELECT id 
                 FROM tasks 
-                ORDER BY "id" ASC
-            """)
+                WHERE NOT EXISTS (
+                    SELECT 1 FROM complete_tasks
+                    WHERE complete_tasks.task_id = tasks.id
+                      AND complete_tasks.assessment_id = %s
+                )
+                ORDER BY id ASC
+            """, (assessment_id,))
             return [row["id"] for row in cur.fetchall()]
 
     def _get_task(self, id: str) -> Task:
@@ -49,9 +54,9 @@ class DbTasksRepo(TaskRepo):
                 raise ValueError(f"Task with id {id} not found")
             return get_task(row["id"], row["body"])
 
-    def next(self) -> Optional[Task]:
+    def next(self,assessment_id=str) -> Optional[Task]:
         if len(self._task_ids) == 0:
-            self._task_ids = self._get_task_ids()
+            self._task_ids = self._get_task_ids(assessment_id)
 
         index = self._current_task_index
         if index < len(self._task_ids):

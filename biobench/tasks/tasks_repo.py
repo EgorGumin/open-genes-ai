@@ -6,5 +6,5 @@ from biobench.tasks.task import Task
 
 class TaskRepo(ABC):
     @abstractmethod
-    def next(self) -> Optional[Task]:
+    def next(self, assessment_id) -> Optional[Task]:
         pass
