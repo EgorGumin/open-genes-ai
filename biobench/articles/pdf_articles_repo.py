@@ -74,8 +74,6 @@ class PdfArticlesRepo(ArticleRepo):
             ".tif",
             ".tiff",
             ".txt",
-            ".xls",
-            ".xlsx",
         }
         max_size = 10 * 1024 * 1024  # 10 MB
         supp_dir = Path(__file__).resolve().parent.parent.parent / "data" / "supp" / doi
@@ -92,6 +90,8 @@ class PdfArticlesRepo(ArticleRepo):
                     with open(file, "rb") as f:
                         content = f.read()
                     mime_type, _ = mimetypes.guess_type(file.name)
+                    if file.suffix.lower() == ".csv":
+                        mime_type = "text/csv"
                     if mime_type is None:
                         mime_type = "application/octet-stream"
                     result.append({"content": content, "mime_type": mime_type})
