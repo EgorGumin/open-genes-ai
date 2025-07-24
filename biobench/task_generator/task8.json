@@ -1,0 +1,17 @@
+{
+  "content": {
+    "text": "Match each gene with the corresponding mouse strain and publication.\n\n Instructions: For each gene in Column A, match it with the correct mouse strain from Column B and the corresponding publication DOI from Column C.\n\nColumn A (Gene)\tColumn B (Mouse Strain)\tColumn C (DOI)\n1. ADCY5\tA. C57BL/6 × 129/SvEv\ti. 10.1073/pnas.1516131112\n2. AGTR1\tB. NMRI\tii. 10.1111/acel.12401\n3. BUB1B\tC. T7\tiii. 10.1172/JCI36703\n4. HSPA1A\tD. wild type\tiv. 10.1038/ncb2643\nYour answers (example format): 1Di,2Biv\t\t",
+    "type": "Matching",
+    "referenceSolution": "1Dii, 2Aiii, 3Civ, 4Bi"
+  },
+  "articles": [
+    "10.1073_pnas.1516131112",
+    "10.1111_acel.12401",
+    "10.1172/JCI36703",
+    "10.1038/ncb2643"
+  ],
+  "scoring": {
+    "model": "AI"
+  },
+  "cognitiveType": "Context"
+}

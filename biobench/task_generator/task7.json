@@ -4,7 +4,7 @@
     "type": "FillInTheBlanks",
     "referenceSolution": "Akt1"
   },
-  "articles": "[\"10.1371_journal.pone.0069178\"]",
+  "articles": ["10.1371_journal.pone.0069178"],
   "scoring": {
     "model": "AI"
   },
