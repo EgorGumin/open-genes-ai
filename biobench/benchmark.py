@@ -35,6 +35,7 @@ class Benchmark:
                 break
             solution = self.model.query(task.compile(), task.article_ids)
             score = task.score(solution)
+            print(score)
             self.assessment.save_score(task, score.score)
 
         self.assessment.complete()

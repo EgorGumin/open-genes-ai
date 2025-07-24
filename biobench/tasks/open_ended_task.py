@@ -17,6 +17,8 @@ class OpenEndedTask(Task):
         super().__init__(id, reference_solution, scoring_model, article_ids, text)
 
     def compile(self) -> str:
-        text = f'{self.text}'
+        text = f'''
+<task>{self.text}</task>
+'''
 
         return text

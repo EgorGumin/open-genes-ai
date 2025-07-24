@@ -12,7 +12,10 @@ def get_scorer(scoring_model: ScoringModel, ai_model: AIModel = None) -> Scorer:
     elif scoring_model == "AI":
         if ai_model is None:
             # Use default OpenAI model if none provided
-            ai_model = OpenAIModel()
+            ai_model = OpenAIModel(params={
+                'temperature': 0.0,
+                'max_tokens': 256
+            })
         return AIScorer(ai_model)
     else:
         raise ValueError(f"Scoring model {scoring_model} not supported")    

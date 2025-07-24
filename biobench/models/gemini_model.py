@@ -18,7 +18,7 @@ class GeminiModel(AIModel):
     def query(self, prompt: str, article_ids: str) -> str:
         model = self.name
 
-        parts = []
+        parts = [types.Part.from_text(text=self.get_base_prompt())]
 
         for article_id in article_ids:
             article_bytes = self.articles_repo.get_article(article_id)
@@ -36,13 +36,13 @@ class GeminiModel(AIModel):
                 parts=parts,
             ),
         ]
-        tools = [
-            types.Tool(googleSearch=types.GoogleSearch(
-            )),
-        ]
+
         generate_content_config = types.GenerateContentConfig(
-            tools=tools,
             response_mime_type="text/plain",
+            max_output_tokens=128,
+            top_p=1,
+            top_k=1,
+            temperature=0,
         )
 
         res = ''
