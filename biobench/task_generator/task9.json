@@ -1,0 +1,14 @@
+{
+  "content": {
+    "text": "Which of the following statements are TRUE based on the given genetic study data?\n\n(More than one answer may be correct.)\nA. The studied polymorphism involves a nucleotide change of C>G.\nB. The polymorphism leads to an amino acid substitution Arg72Pro.\nC. The allele variant studied is T (Thr90).\nD. The mean age of the experimental group was 92 years.\nE. The p-value of the study is greater than 0.05, indicating non-significance.\n\uD83D\uDCDD Correct answer format: Select all correct letters (e.g., A, B, C)",
+    "type": "MultipleChoiceMultipleAnswers",
+    "referenceSolution": "A,B,D"
+  },
+  "articles": [
+    "10.1093_gerona_gls223"
+  ],
+  "scoring": {
+    "model": "AI"
+  },
+  "cognitiveType": "ClaimVerification"
+}
