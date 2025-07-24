@@ -34,9 +34,9 @@ def insert_to_postgres(cursor, data):
 
         if isinstance(row, dict) and 'body' in row:
             body_content = json.loads(row['body']) if isinstance(row['body'], str) else row['body']
-            cursor.execute("INSERT INTO public.tasks (id, body) VALUES (%s, %s)", (task_id, body_content))
+            cursor.execute("INSERT INTO public.tasks (id, body) VALUES (%s, %s)", (task_id, json.dumps(body_content)))
         else:
-            cursor.execute("INSERT INTO public.tasks (id, body) VALUES (%s, %s)", (task_id, row))
+            cursor.execute("INSERT INTO public.tasks (id, body) VALUES (%s, %s)", (task_id, json.dumps(row)))
 
 
 def main():
@@ -57,8 +57,8 @@ def main():
         if sql_queries:
             mysql_conn = mysql.connector.connect(
                 host=os.environ.get("MYSQL_HOST", "localhost"),
-                user=os.environ.get("MYSQL_USER", ""),
-                password=os.environ.get("MYSQL_PASSWORD", ""),
+                user=os.environ.get("MYSQL_USER", "remote"),
+                password=os.environ.get("MYSQL_PASSWORD", "pass"),
                 database=os.environ.get("MYSQL_DATABASE", "opengenes")
             )
 

@@ -72,7 +72,7 @@ Scoring: 1.0 if model clearly indicates uncertainty and explains gaps when data 
 - 0.0 if model gives an incorrect or empty answer and provides no explanation why it could not be retrieved
 - null only if extraction was successful (completeness >= 0.5 AND numerical_accuracy >= 0.5)
 
-summary: Provide a brief summary of the evaluation in maximum 3 sentences.
+summary: Provide a brief summary of the evaluation in maximum 120 symbols.
 
 
 <task>{text}</task>

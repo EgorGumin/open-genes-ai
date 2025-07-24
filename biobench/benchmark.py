@@ -14,6 +14,7 @@ class Benchmark:
             task = self.task_repo.next(self.assessment.id)
             if task is None:
                 break
+            print(task.id)
             solution = self.model.query(task.compile(), task.article_ids)
             score = task.score(solution)
             print(score)

@@ -4,3 +4,4 @@ requests==2.32.4
 google-genai==1.26.0
 mysql-connector-python==8.0.33
 uuid6==2024.1.12
+matplotlib==3.8.4
