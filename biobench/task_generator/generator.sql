@@ -1,6 +1,6 @@
 SELECT JSON_OBJECT(
     'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
-    'scoring', JSON_OBJECT('model', 'Exact'),
+    'scoring', JSON_OBJECT('model', 'AI'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
         'text', 'List all mean lifespan values for control models in study, in ascending order, in a single line? Answer to the point only, no additional text and no combined information',
@@ -85,7 +85,7 @@ ORDER BY reference;
 
 SELECT JSON_OBJECT(
     'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
-    'scoring', JSON_OBJECT('model', 'Exact'),
+    'scoring', JSON_OBJECT('model', 'AI'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
         'text', 'How many individuals were in the experimental group in study, in ascending order, in a single line? Answer to the point only, no additional text and no combined information',
@@ -170,7 +170,7 @@ ORDER BY reference;
 
 SELECT  JSON_OBJECT(
     'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
-    'scoring', JSON_OBJECT('model', 'Exact'),
+    'scoring', JSON_OBJECT('model', 'AI'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
         'text', 'What was the percentage change in lifespan for male organisms in study, in ascending order, in a single line? Answer to the point only, no additional text and no combined information',
@@ -256,7 +256,7 @@ ORDER BY reference;
 SELECT
 JSON_OBJECT(
     'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
-    'scoring', JSON_OBJECT('model', 'Exact'),
+    'scoring', JSON_OBJECT('model', 'AI'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
         'text', 'At what age did the intervention start, and in what unit, in study, in ascending order, in a single line? Example: 5 (days), 12 (months), 35 (days).Answer to the point only, no additional text and no combined information',
@@ -344,7 +344,7 @@ ORDER BY reference;
 SELECT
 JSON_OBJECT(
     'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
-    'scoring', JSON_OBJECT('model', 'Exact'),
+    'scoring', JSON_OBJECT('model', 'AI'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
         'text', 'What model organism was used in study? Name model on English. Answer to the point only, no additional text and no combined information. If models the same print only one time',
@@ -435,7 +435,7 @@ ORDER BY reference;
 SELECT
 JSON_OBJECT(
     'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
-    'scoring', JSON_OBJECT('model', 'Exact'),
+    'scoring', JSON_OBJECT('model', 'AI'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
         'text', 'How much did the mean lifespan increase in the experimental group compared to the control in study, in ascending order, in a single line? Example: 19 (15.5), 19.56 (24.4), 20.7 (11.1). Where without brackets is the control, and with brackets is the corresponding experiment .Answer to the point only, no additional text and no combined information',
@@ -522,7 +522,7 @@ ORDER BY reference;
 SELECT
 JSON_OBJECT(
     'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
-    'scoring', JSON_OBJECT('model', 'Exact'),
+    'scoring', JSON_OBJECT('model', 'AI'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
         'text', 'Was the change in maximum lifespan statistically significant in study, in a single line? Answer to the point only, no additional text and no combined information',
@@ -609,7 +609,7 @@ ORDER BY reference;
 SELECT
 JSON_OBJECT(
     'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
-    'scoring', JSON_OBJECT('model', 'Exact'),
+    'scoring', JSON_OBJECT('model', 'AI'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
         'text', 'Was the median lifespan in the experimental group higher than in the control group in study, in a single line? Example: yes, no, yes. Answer to the point only, no additional text and no combined information',
@@ -695,7 +695,7 @@ ORDER BY reference;
 SELECT
 JSON_OBJECT(
     'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
-    'scoring', JSON_OBJECT('model', 'Exact'),
+    'scoring', JSON_OBJECT('model', 'AI'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
         'text', 'Does the intervention result in a statistically significant change in lifespan, and is it an increase or decrease in study, in ascending order, in a single line? Example: yes (-20.5), yes (-14.6), yes (-14.3), yes (12). Answer to the point only, no additional text and no combined information',
@@ -782,7 +782,7 @@ ORDER BY reference;
 SELECT
 JSON_OBJECT(
     'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
-    'scoring', JSON_OBJECT('model', 'Exact'),
+    'scoring', JSON_OBJECT('model', 'AI'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
         'text', 'What was the temperature range used during the intervention in study? From {temperature_from}°C to {temperature_to}°C, in ascending order, in a single line? Example: From 20°C to 25°C, From 25°C to 35°C. Answer to the point only, no additional text and no combined information',
@@ -869,7 +869,7 @@ ORDER BY reference;
 SELECT
 JSON_OBJECT(
     'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
-    'scoring', JSON_OBJECT('model', 'Exact'),
+    'scoring', JSON_OBJECT('model', 'AI'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
         'text', 'In which tissue was the gene expression changed in study, in ascending order, in a single line? Example: liver, whole organism. Answer to the point only, no additional text and no combined information, without duplicates',
@@ -956,7 +956,7 @@ ORDER BY reference;
 SELECT
 JSON_OBJECT(
     'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
-    'scoring', JSON_OBJECT('model', 'Exact'),
+    'scoring', JSON_OBJECT('model', 'AI'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
         'text', 'What was the direction of gene expression change and in which tissue in study, in ascending order, in a single line? Example: 100 (muscle), 270 (muscle). Answer to the point only, no additional text and no combined information, without duplicates',
@@ -1043,7 +1043,7 @@ ORDER BY reference;
 SELECT
 JSON_OBJECT(
     'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
-    'scoring', JSON_OBJECT('model', 'Exact'),
+    'scoring', JSON_OBJECT('model', 'AI'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
         'text', 'What was the sex of the organisms used and what was the observed lifespan change in study, in ascending order, in a single line? Example: hermaphrodites (30), hermaphrodites (40), hermaphrodites (50). Answer to the point only, no additional text and no combined information, without duplicates',
@@ -1130,7 +1130,7 @@ ORDER BY reference;
 SELECT
 JSON_OBJECT(
     'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
-    'scoring', JSON_OBJECT('model', 'Exact'),
+    'scoring', JSON_OBJECT('model', 'AI'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
         'text', 'Are there any comments on the statistical or biological significance of the results in study, in a single line? Example: only comment or empty string. Answer to the point only, no additional text and no combined information, without duplicates',
@@ -1301,7 +1301,7 @@ ORDER BY reference;
 SELECT
 JSON_OBJECT(
     'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
-    'scoring', JSON_OBJECT('model', 'Exact'),
+    'scoring', JSON_OBJECT('model', 'AI'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
         'text', 'Claim: "The intervention increased mean lifespan by more than 15%." Is this true in study? Answers in ascending order by lifespan mean change. Example: yes (-23), yes (-23), yes (-20.5), no (-14.6). Answer to the point only, no additional text and no combined information',
@@ -1387,7 +1387,7 @@ ORDER BY reference;
 SELECT
 JSON_OBJECT(
     'articles', JSON_ARRAYAGG(REPLACE(reference, '/', '_')),
-    'scoring', JSON_OBJECT('model', 'Exact'),
+    'scoring', JSON_OBJECT('model', 'AI'),
     'content', JSON_OBJECT(
         'type', 'OpenEnded',
         'text', 'Claim: "Gene expression was changed in the liver." Is this true in study? Example: yes. Answer to the point only, no additional text and no combined information. No duplicates',

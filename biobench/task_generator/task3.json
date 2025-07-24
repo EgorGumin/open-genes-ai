@@ -6,6 +6,6 @@
   },
   "articles": "[\"10.1111_j.1474-9726.2009.00534.x\", \"10.1371_journal.pone.0000465\", \"10.1152_physiolgenomics.00049.2003\"]",
   "scoring": {
-    "model": "Exact"
+    "model": "AI"
   }
 }

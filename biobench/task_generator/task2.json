@@ -6,7 +6,6 @@
   },
   "articles": "[\"10.1210_en.2003-0374\", \"10.1210_en.2016-1649\", \"10.1210_endo.141.7.7586\"]",
   "scoring": {
-    "model": "AI",
-    "instructions": "Use the normalized F1 metric to assess the similarity of responses, as a result return json with the score field - the similarity value from 0 to 1 and the reason field - a brief description of the reason for this result"
-  }
+    "model": "AI"
+   }
 }
