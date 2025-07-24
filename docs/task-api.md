@@ -12,6 +12,7 @@ Task is stored as JSON and has the following structure:
   "scoring": {
     "model": 'Exact'
   },
+  "cognitiveType": ''
 }
 ```
 
@@ -26,8 +27,7 @@ Scoring models:
 ```
 ```json5
 {
-  "model": 'AI',
-  "instructions": 'Your prompt with scoring instructions'
+  "model": 'AI'
 }
 ```
 
