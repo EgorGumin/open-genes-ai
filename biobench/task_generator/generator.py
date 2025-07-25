@@ -56,10 +56,10 @@ def main():
     try:
         if sql_queries:
             mysql_conn = mysql.connector.connect(
-                host=os.environ.get("MYSQL_HOST", "localhost"),
-                user=os.environ.get("MYSQL_USER", "remote"),
-                password=os.environ.get("MYSQL_PASSWORD", "pass"),
-                database=os.environ.get("MYSQL_DATABASE", "opengenes")
+                host=os.environ.get("MYSQL_HOST"),
+                user=os.environ.get("MYSQL_USER"),
+                password=os.environ.get("MYSQL_PASSWORD"),
+                database=os.environ.get("MYSQL_DATABASE")
             )
 
             mysql_cursor = mysql_conn.cursor(dictionary=True)

@@ -62,7 +62,6 @@ class PdfArticlesRepo(ArticleRepo):
         allowed_exts = {
             ".csv",
             ".emf",
-            ".eps",
             ".gif",
             ".html",
             ".jpeg",
