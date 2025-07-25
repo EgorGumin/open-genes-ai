@@ -50,8 +50,10 @@ fields = [
 # Поля, для которых нужно инвертировать значения (меньше = лучше)
 invert_fields = {"hallucination_rate", "plausible_error_rate"}
 
+# Открываем ОДНО соединение для всех операций
 with main_pool.getconn() as conn:
     with conn.cursor(cursor_factory=RealDictCursor) as cur:
+        # Первый запрос - получаем результаты для конкретного assessment_id
         cur.execute(
             """
             SELECT ct.result, t.body 
@@ -63,19 +65,35 @@ with main_pool.getconn() as conn:
         )
         rows = cur.fetchall()
 
-results = []
-for row in rows:
-    result = row["result"]
-    body = row["body"] if isinstance(row["body"], dict) else json.loads(row["body"])
+        results = []
+        for row in rows:
+            result = row["result"]
+            body = row["body"] if isinstance(row["body"], dict) else json.loads(row["body"])
 
-    # Добавляем информацию о типах в результат
-    result_with_types = result.copy() if isinstance(result, dict) else json.loads(result) if isinstance(result,
-                                                                                                        str) else result
-    result_with_types['task_type'] = body.get('content', {}).get('type', 'Unknown')
-    result_with_types['cognitive_type'] = body.get('cognitiveType', 'Unknown')
+            # Добавляем информацию о типах в результат
+            result_with_types = result.copy() if isinstance(result, dict) else json.loads(result) if isinstance(result, str) else result
+            result_with_types['task_type'] = body.get('content', {}).get('type', 'Unknown')
+            result_with_types['cognitive_type'] = body.get('cognitiveType', 'Unknown')
 
-    results.append(result_with_types)
+            results.append(result_with_types)
 
+        # Второй запрос - получаем все assessments
+        cur.execute("SELECT id, model FROM assessments WHERE id in ('', '')")
+        assessments = cur.fetchall()
+
+        # Третий запрос - получаем все данные для всех моделей одним запросом
+        cur.execute(
+            """
+            SELECT ct.result, t.body, a.model
+            FROM complete_tasks ct
+            JOIN tasks t ON ct.task_id = t.id
+            JOIN assessments a ON ct.assessment_id = a.id
+            WHERE a.id in ('', '')
+            """
+        )
+        all_model_rows = cur.fetchall()
+
+# Обрабатываем данные после закрытия соединения
 agg = {}
 for field in fields:
     values = [r.get(field) for r in results if r.get(field) is not None]
@@ -89,7 +107,7 @@ print(json.dumps(agg, indent=2, ensure_ascii=False))
 # --- Хитмап по средним значениям (agg) ---
 agg_matrix = np.array([[agg[field] if agg[field] is not None else np.nan for field in fields]], dtype=np.float32)
 
-# Инвертируем значения для соответствующих полей
+# Инвертируем значения для error-метрик ТОЛЬКО для цветового отображения
 agg_matrix_display = agg_matrix.copy()
 for j, field in enumerate(fields):
     if field in invert_fields and not np.isnan(agg_matrix_display[0, j]):
@@ -121,12 +139,17 @@ for field in fields:
 plt.xticks(np.arange(len(fields)), field_labels, rotation=25, ha='right', fontsize=13, fontweight='500')
 plt.yticks([0], ['Average'], fontsize=14, fontweight='500')
 
-# Подписи значений без прямоугольников
+# Подписи значений - показываем инвертированные значения для error-метрик
 for j in range(agg_matrix.shape[1]):
     original_val = agg_matrix[0, j]
+    field = fields[j]
     if not np.isnan(original_val):
-        # Всегда используем черный цвет для лучшей читаемости
-        plt.text(j, 0, f'{original_val:.3f}', ha='center', va='center',
+        # Для error-метрик показываем инвертированное значение
+        if field in invert_fields:
+            display_val = 1 - original_val
+        else:
+            display_val = original_val
+        plt.text(j, 0, f'{display_val:.3f}', ha='center', va='center',
                  color='black', fontsize=13, fontweight='600')
 
 plt.title('Assessment Performance Metrics', fontsize=18, pad=20, fontweight='600')
@@ -137,44 +160,26 @@ print(f'График сохранен: {output_dir}/average_metrics_heatmap.png'
 
 # --- Сравнение моделей по всем ассессментам (группировка по model) ---
 
-# Сгруппируем все assessment_id по model
-with main_pool.getconn() as conn:
-    with conn.cursor(cursor_factory=RealDictCursor) as cur:
-        cur.execute("SELECT id, model FROM assessments")
-        assessments = cur.fetchall()
-
+# Группируем по моделям
 model_to_assessments = defaultdict(list)
+model_results_data = defaultdict(list)
+
 for ass in assessments:
     model_to_assessments[ass['model']].append(ass['id'])
+
+for row in all_model_rows:
+    result = row["result"]
+    model = row["model"]
+    if isinstance(result, str):
+        result = json.loads(result)
+    model_results_data[model].append(result)
 
 model_names = sorted(model_to_assessments.keys())
 agg_rows = []
 original_agg_rows = []  # Для хранения оригинальных значений
 
 for model in model_names:
-    all_results = []
-    for ass_id in model_to_assessments[model]:
-        with main_pool.getconn() as conn:
-            with conn.cursor(cursor_factory=RealDictCursor) as cur:
-                cur.execute(
-                    """
-                    SELECT ct.result, t.body 
-                    FROM complete_tasks ct
-                    JOIN tasks t ON ct.task_id = t.id
-                    WHERE ct.assessment_id = %s
-                    """,
-                    (ass_id,)
-                )
-                rows = cur.fetchall()
-
-        task_results = []
-        for row in rows:
-            result = row["result"]
-            if isinstance(result, str):
-                result = json.loads(result)
-            task_results.append(result)
-
-        all_results.extend(task_results)
+    all_results = model_results_data.get(model, [])
 
     agg = []
     original_agg = []
@@ -183,7 +188,7 @@ for model in model_names:
         if values:
             avg_val = sum(values) / len(values)
             original_agg.append(avg_val)
-            # Инвертируем для отображения, если нужно
+            # Инвертируем для отображения цветов error-метрик
             if field in invert_fields:
                 agg.append(1 - avg_val)
             else:
@@ -206,12 +211,6 @@ if agg_rows:
 
     plt.figure(figsize=(fig_width, fig_height))
 
-    # Возвращаемся к прежним цветам, но делаем их более чувствительными
-    from matplotlib.colors import LinearSegmentedColormap
-
-    sensitive_cmap = LinearSegmentedColormap.from_list('sensitive',
-                                                       ['#ff7f7f', '#ffbf7f', '#ffff7f', '#bfff7f', '#7fff7f'], N=256)
-
     im = plt.imshow(agg_matrix, aspect='auto', cmap=sensitive_cmap, interpolation='nearest', vmin=0.1, vmax=0.8)
 
     # Добавляем более крупную шкалу без подписей
@@ -230,15 +229,18 @@ if agg_rows:
     plt.xticks(np.arange(len(fields)), field_labels, rotation=30, ha='right', fontsize=13, fontweight='500')
     plt.yticks(np.arange(n_models), model_names, fontsize=13, fontweight='500')
 
-    # Убираем подписи осей
-
-    # Подписи значений без прямоугольников
+    # Подписи значений - показываем инвертированные значения для error-метрик
     for i in range(agg_matrix.shape[0]):
         for j in range(agg_matrix.shape[1]):
             original_val = original_agg_matrix[i, j]
+            field = fields[j]
             if not np.isnan(original_val):
-                # Всегда используем черный цвет для лучшей читаемости
-                plt.text(j, i, f'{original_val:.3f}', ha='center', va='center',
+                # Для error-метрик показываем инвертированное значение
+                if field in invert_fields:
+                    display_val = 1 - original_val
+                else:
+                    display_val = original_val
+                plt.text(j, i, f'{display_val:.3f}', ha='center', va='center',
                          color='black', fontsize=12, fontweight='600')
 
     plt.title('Model Performance Comparison', fontsize=18, pad=25, fontweight='600')
@@ -382,7 +384,7 @@ def create_performance_heatmap_by_type(model_name, model_results, type_field, ty
 
     type_matrix = np.array(type_matrix, dtype=np.float32)
 
-    # Создаем матрицу для отображения с инверсией
+    # Создаем матрицу для отображения С инверсией цветов для error-метрик
     type_matrix_display = type_matrix.copy()
     for i in range(type_matrix_display.shape[0]):
         for j, field in enumerate(fields):
@@ -414,12 +416,18 @@ def create_performance_heatmap_by_type(model_name, model_results, type_field, ty
     plt.xticks(np.arange(len(fields)), field_labels, rotation=30, ha='right', fontsize=12, fontweight='500')
     plt.yticks(np.arange(len(type_names)), type_names, fontsize=12, fontweight='500')
 
-    # Подписи значений
+    # Подписи значений - показываем инвертированные значения для error-метрик
     for i in range(type_matrix.shape[0]):
         for j in range(type_matrix.shape[1]):
             original_val = type_matrix[i, j]
+            field = fields[j]
             if not np.isnan(original_val):
-                plt.text(j, i, f'{original_val:.3f}', ha='center', va='center',
+                # Для error-метрик показываем инвертированное значение
+                if field in invert_fields:
+                    display_val = 1 - original_val
+                else:
+                    display_val = original_val
+                plt.text(j, i, f'{display_val:.3f}', ha='center', va='center',
                          color='black', fontsize=11, fontweight='600')
 
     plt.title(f'{model_name} Performance by {type_name}', fontsize=16, fontweight='600', pad=20)
@@ -431,46 +439,22 @@ def create_performance_heatmap_by_type(model_name, model_results, type_field, ty
     print(f'График сохранен: {output_dir}/{filename}')
 
 
-# Создаем комбинированные хитмапы для каждой модели
-# Сначала собираем все данные одним запросом
+# Группируем данные по моделям для создания хитмапов
 all_model_results = {}
 
-with main_pool.getconn() as conn:
-    with conn.cursor(cursor_factory=RealDictCursor) as cur:
-        # Получаем все данные одним запросом для всех моделей
-        assessment_ids = []
-        for model in model_names:
-            assessment_ids.extend(model_to_assessments[model])
+for row in all_model_rows:
+    model = row["model"]
+    if model not in all_model_results:
+        all_model_results[model] = []
 
-        if assessment_ids:
-            placeholders = ','.join(['%s'] * len(assessment_ids))
-            cur.execute(
-                f"""
-                SELECT ct.result, t.body, a.model
-                FROM complete_tasks ct
-                JOIN tasks t ON ct.task_id = t.id
-                JOIN assessments a ON ct.assessment_id = a.id
-                WHERE ct.assessment_id IN ({placeholders})
-                """,
-                assessment_ids
-            )
-            all_rows = cur.fetchall()
+    result = row["result"]
+    body = row["body"] if isinstance(row["body"], dict) else json.loads(row["body"])
 
-            # Группируем по моделям
-            for row in all_rows:
-                model = row["model"]
-                if model not in all_model_results:
-                    all_model_results[model] = []
+    result_with_types = result.copy() if isinstance(result, dict) else json.loads(result) if isinstance(result, str) else result
+    result_with_types['task_type'] = body.get('content', {}).get('type', 'Unknown')
+    result_with_types['cognitive_type'] = body.get('cognitiveType', 'Unknown')
 
-                result = row["result"]
-                body = row["body"] if isinstance(row["body"], dict) else json.loads(row["body"])
-
-                result_with_types = result.copy() if isinstance(result, dict) else json.loads(result) if isinstance(
-                    result, str) else result
-                result_with_types['task_type'] = body.get('content', {}).get('type', 'Unknown')
-                result_with_types['cognitive_type'] = body.get('cognitiveType', 'Unknown')
-
-                all_model_results[model].append(result_with_types)
+    all_model_results[model].append(result_with_types)
 
 # Теперь создаем отдельные хитмапы для каждой модели
 for model in model_names:
